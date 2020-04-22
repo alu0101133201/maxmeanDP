@@ -9,15 +9,23 @@
 
 #pragma once
 
+#include <climits>
+#include <stdlib.h>
+#include <time.h>      
+
 #include "Graph.hpp"
 #include "Maxmeandp.hpp"
 
 class FirstGreedy : public Maxmeandp{
+  private:
+    int getConnectedMax(void);
+    int getMax(void);
+
   public:
     FirstGreedy(Graph);
     ~FirstGreedy();
 
-    int solve();
+    float solve();
 };
 
 class SecondGreedy : public Maxmeandp{
@@ -25,5 +33,5 @@ class SecondGreedy : public Maxmeandp{
     SecondGreedy(Graph);
     ~SecondGreedy();
     
-    int solve();
+    float solve();
 };

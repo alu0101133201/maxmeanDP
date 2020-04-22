@@ -26,11 +26,12 @@ int main(int argc, char *argv[]) {
 
       Graph firstGraph(fileName);
       Maxmeandp* alg1 = new FirstGreedy(firstGraph);
-      Maxmeandp* alg2 = new SecondGreedy(firstGraph);
+      // Maxmeandp* alg2 = new SecondGreedy(firstGraph);
       MaxmeandpCalculator algorithmInterface(alg1);
       algorithmInterface.solve();
-      algorithmInterface.setStrategy(alg2);
-      algorithmInterface.solve();    
+      algorithmInterface.write(std::cout);
+      // algorithmInterface.setStrategy(alg2);
+      // algorithmInterface.solve();    
       
   } catch(const char* e) {
     std::cout << e;

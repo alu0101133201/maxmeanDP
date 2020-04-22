@@ -14,10 +14,10 @@
 #include "Graph.hpp"
 
 class Maxmeandp {
-  private:
+  protected:
     Graph workingGraph;
     std::vector<int> bestSolution;
-    int bestSolutionValue;
+    float bestSolutionValue;
 
   public:
     Maxmeandp(Graph myGraph);
@@ -25,5 +25,10 @@ class Maxmeandp {
 
     std::vector<int> getBestSolution();
     int getBestSoluctionValue();
-    virtual int solve() = 0;
+
+    float md(float);
+    bool isInSolution(int);
+    virtual float solve() = 0;
+
+    std::ostream& write(std::ostream&);
 };

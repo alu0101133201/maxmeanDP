@@ -10,6 +10,8 @@
 
 #pragma once
 
+#include <iostream>
+
 #include "Greedy.hpp"
 #include "Maxmeandp.hpp"
 #include "Graph.hpp"
@@ -25,4 +27,6 @@ class MaxmeandpCalculator {
 
     void setStrategy(Maxmeandp*);
     int solve();
+    std::ostream& write(std::ostream& os);
+
 };

@@ -22,3 +22,8 @@ void MaxmeandpCalculator::setStrategy(Maxmeandp* newStrategy) {
 int MaxmeandpCalculator::solve(void) {
   return(algorithm->solve());
 }
+
+std::ostream& MaxmeandpCalculator::write(std::ostream& os) {
+  algorithm->write(os);
+  return os;
+}

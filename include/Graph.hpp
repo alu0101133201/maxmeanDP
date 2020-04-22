@@ -26,6 +26,7 @@ class Graph {
     Graph(std::string fileName);
     ~Graph();
 
+    int getNumberOfNodes(void);
     float at(int i, int j);
     std::ostream& write(std::ostream& os);
 };

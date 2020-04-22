@@ -44,6 +44,10 @@ void Graph::build(std::string fileName) {
   }
 }
 
+int Graph::getNumberOfNodes(void) {
+  return(numberOfNodes);
+}
+
 float Graph::at(int i, int j) {
   return (adjacencyMatrix[(i * numberOfNodes) + j]);
 }
