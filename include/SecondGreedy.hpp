@@ -9,7 +9,7 @@
 
 #pragma once
 
-#include <climits>
+#include <cfloat>
 #include <stdlib.h>
 #include <time.h>  
 #include <vector>    
