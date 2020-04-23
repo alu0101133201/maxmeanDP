@@ -11,24 +11,17 @@
 
 #include <climits>
 #include <stdlib.h>
-#include <time.h>      
+#include <time.h>  
+#include <vector>    
 
 #include "Graph.hpp"
 #include "Maxmeandp.hpp"
 
-class FirstGreedy : public Maxmeandp{
-  private:
-    int getConnectedMax(void);
-    int getMax(void);
-
-  public:
-    FirstGreedy(Graph);
-    ~FirstGreedy();
-
-    float solve();
-};
-
 class SecondGreedy : public Maxmeandp{
+  private:
+    void buildInitialSolution();
+    float deleteWorstNode();
+
   public:
     SecondGreedy(Graph);
     ~SecondGreedy();

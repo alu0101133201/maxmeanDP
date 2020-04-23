@@ -12,7 +12,8 @@
 
 #include <iostream>
 
-#include "Greedy.hpp"
+#include "FirstGreedy.hpp"
+#include "SecondGreedy.hpp"
 #include "Maxmeandp.hpp"
 #include "Graph.hpp"
 
@@ -27,6 +28,8 @@ class MaxmeandpCalculator {
 
     void setStrategy(Maxmeandp*);
     int solve();
+    
     std::ostream& write(std::ostream& os);
+
 
 };

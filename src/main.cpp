@@ -11,7 +11,8 @@
 #include <string>
 
 #include "Graph.hpp"
-#include "Greedy.hpp"
+#include "FirstGreedy.hpp"
+#include "SecondGreedy.hpp"
 #include "Maxmeandp.hpp"
 #include "MaxmeandpCalculator.hpp"
 
@@ -26,7 +27,7 @@ int main(int argc, char *argv[]) {
 
       Graph firstGraph(fileName);
       Maxmeandp* alg1 = new FirstGreedy(firstGraph);
-      // Maxmeandp* alg2 = new SecondGreedy(firstGraph);
+      Maxmeandp* alg2 = new SecondGreedy(firstGraph);
       MaxmeandpCalculator algorithmInterface(alg1);
       algorithmInterface.solve();
       algorithmInterface.write(std::cout);

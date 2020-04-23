@@ -25,7 +25,7 @@ int Maxmeandp::getBestSoluctionValue() {
 }
 
 float Maxmeandp::md(float numerator) {
-  return(numerator / bestSolution.size());
+  return(numerator / (float)bestSolution.size());
 }
 
 bool Maxmeandp::isInSolution(int node) {
@@ -35,6 +35,22 @@ bool Maxmeandp::isInSolution(int node) {
   }
   return false;
 }
+
+float Maxmeandp::mdFromSet(std::vector<int> nodeSet) {
+  float ValueSum = 0;
+
+  // for (int i = 0; i < nodeSet.size(); i++)
+  //   std::cout << nodeSet[i] << " ";
+  for (size_t iter = 0; iter < nodeSet.size(); iter++) {
+    for (size_t secondIter = iter + 1; secondIter < nodeSet.size(); secondIter++) {
+      ValueSum += workingGraph.at(nodeSet[iter], nodeSet[secondIter]);
+    }
+  }
+  // std::cout << "ValueSum: " << ValueSum << " Nodos: " << nodeSet.size() << "\n";
+  return ValueSum / nodeSet.size();
+}
+
+
 
 std::ostream& Maxmeandp::write(std::ostream& os) {
   os << "Maxmeandp aplicado sobre la siguiente matriz: \n";

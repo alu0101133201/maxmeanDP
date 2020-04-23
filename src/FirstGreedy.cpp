@@ -7,16 +7,15 @@
  * los planteamientos greedy del algorimot maxmeandp
  */
 
-#include "Greedy.hpp"
+#include "FirstGreedy.hpp"
 
-// ------ FIRST ALGORITHM ------------
 FirstGreedy::FirstGreedy(Graph workingGraph):
     Maxmeandp(workingGraph) {
   srand (time(NULL));
 }
 
-int FirstGreedy::getMax(void) {
-  int maxValue = INT_MIN;
+float FirstGreedy::getMax(void) {
+  float maxValue = FLT_MIN;
   int maxI = -1;
   int maxJ = -1;
 
@@ -41,8 +40,8 @@ int FirstGreedy::getMax(void) {
   return maxValue;
 }
 
-int FirstGreedy::getConnectedMax(void) {
-  int maxValue = INT_MIN;
+float FirstGreedy::getConnectedMax(void) {
+  float maxValue = FLT_MIN;
   int maxJ = -1;
   int maxI = -1;
 
@@ -77,32 +76,20 @@ int FirstGreedy::getConnectedMax(void) {
   return maxValue;
 }
 
-
 float FirstGreedy::solve() {
-  bestSolutionValue = getConnectedMax() / 2;  
+  float sumValue = getConnectedMax();  
   float auxBestSolutionValue = bestSolutionValue;
-  int sumValue = bestSolutionValue; // Numerador
+  bestSolutionValue = sumValue / 2;  // Numerador
   std::vector<int> auxSolution;
-
   do {
     auxSolution = bestSolution;
-    sumValue += getConnectedMax();
+    sumValue += getConnectedMax();    
     auxBestSolutionValue = md(sumValue);
     if (auxBestSolutionValue >= bestSolutionValue)
       bestSolutionValue = auxBestSolutionValue;
     else 
       bestSolution = auxSolution;
-  } while(auxSolution != bestSolution);
+  } while((auxSolution != bestSolution) && (bestSolution.size() != workingGraph.getNumberOfNodes()));
 
   return auxBestSolutionValue;
-}
-
-// ------ SECOND ALGORITHM ------------
-SecondGreedy::SecondGreedy(Graph workingGraph):
-    Maxmeandp(workingGraph) {}
-
-
-float SecondGreedy::solve() {
-  std::cout << "En el segundo\n";
-  return 1;
 }

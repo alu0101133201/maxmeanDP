@@ -27,6 +27,7 @@ class Maxmeandp {
     int getBestSoluctionValue();
 
     float md(float);
+    float mdFromSet(std::vector<int>);
     bool isInSolution(int);
     virtual float solve() = 0;
 
