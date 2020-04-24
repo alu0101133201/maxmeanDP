@@ -39,6 +39,7 @@ bool Maxmeandp::isInSolution(int node) {
 float Maxmeandp::mdFromSet(std::vector<int> nodeSet) {
   float ValueSum = 0;
 
+  // std::cout << "\n\n";
   // for (int i = 0; i < nodeSet.size(); i++)
   //   std::cout << nodeSet[i] << " ";
   for (size_t iter = 0; iter < nodeSet.size(); iter++) {
@@ -46,7 +47,6 @@ float Maxmeandp::mdFromSet(std::vector<int> nodeSet) {
       ValueSum += workingGraph.at(nodeSet[iter], nodeSet[secondIter]);
     }
   }
-  // std::cout << "ValueSum: " << ValueSum << " Nodos: " << nodeSet.size() << "\n";
   return ValueSum / nodeSet.size();
 }
 

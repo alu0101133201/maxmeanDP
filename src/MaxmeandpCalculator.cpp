@@ -19,7 +19,7 @@ void MaxmeandpCalculator::setStrategy(Maxmeandp* newStrategy) {
   algorithm = newStrategy;
 }
 
-int MaxmeandpCalculator::solve(void) {
+float MaxmeandpCalculator::solve(void) {
   return(algorithm->solve());
 }
 

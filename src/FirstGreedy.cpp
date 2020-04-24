@@ -37,59 +37,57 @@ float FirstGreedy::getMax(void) {
   }
   bestSolution.push_back(maxI);
   bestSolution.push_back(maxJ);
-  return maxValue;
+  return maxValue / 2.0;
 }
 
-float FirstGreedy::getConnectedMax(void) {
-  float maxValue = FLT_MIN;
-  int maxJ = -1;
-  int maxI = -1;
+float FirstGreedy::getBestMean(void) {
 
   if (bestSolution.size() == 0) {
     return(getMax());
   } else {
-    size_t currentNode = 0;
-    for (int iIter = bestSolution[currentNode]; currentNode != bestSolution.size();
-        iIter = bestSolution[++currentNode]) {
-      for (int jIter = 0; jIter < workingGraph.getNumberOfNodes(); jIter++) {
-        if ((workingGraph.at(iIter, jIter) > maxValue) && (!isInSolution(jIter))) {
-          maxValue = workingGraph.at(iIter, jIter);
-          maxJ = jIter;
-          maxI = iIter;
-        } else if ((workingGraph.at(iIter, jIter) == maxValue) && (!isInSolution(jIter))) {
+    std::vector<int> bestSolutionAux = bestSolution;
+    float bestValue = FLT_MIN;
+    int bestNode;
+
+    for (int nodeIter = 0; nodeIter < workingGraph.getNumberOfNodes(); nodeIter++) {
+      if (!isInSolution(nodeIter)) {
+        float currentValue;
+
+        bestSolutionAux.push_back(nodeIter);
+        currentValue = mdFromSet(bestSolutionAux);
+        if (bestValue < currentValue) {
+          bestValue = currentValue;
+          bestNode = nodeIter;
+        } else if (currentValue == bestValue) {
           int randomNumber = rand() % 2;
           if (randomNumber == 1) {
-            maxValue = workingGraph.at(iIter, jIter);
-            maxI = iIter;
-            maxJ = jIter;  
+            bestValue = currentValue;
+            bestNode = nodeIter;
           }
         }
+        bestSolutionAux.pop_back();
       }
     }
+
+  bestSolution.push_back(bestNode);
+  return bestValue;
   }
-  for (size_t iter = 0; iter < bestSolution.size(); iter++) {
-    if (bestSolution[iter] != maxI) {
-      maxValue += workingGraph.at(bestSolution[iter], maxJ);
-    }
-  }
-  bestSolution.push_back(maxJ);
-  return maxValue;
 }
 
 float FirstGreedy::solve() {
-  float sumValue = getConnectedMax();  
+  bestSolutionValue = getBestMean();  
   float auxBestSolutionValue = bestSolutionValue;
-  bestSolutionValue = sumValue / 2;  // Numerador
   std::vector<int> auxSolution;
+
   do {
     auxSolution = bestSolution;
-    sumValue += getConnectedMax();    
-    auxBestSolutionValue = md(sumValue);
-    if (auxBestSolutionValue >= bestSolutionValue)
-      bestSolutionValue = auxBestSolutionValue;
-    else 
-      bestSolution = auxSolution;
-  } while((auxSolution != bestSolution) && (bestSolution.size() != workingGraph.getNumberOfNodes()));
+    float currentMean = getBestMean();
 
+    if (bestSolutionValue >= currentMean) {
+      bestSolution = auxSolution;
+    } else {
+      bestSolutionValue = currentMean;
+    }
+  } while((auxSolution != bestSolution) && (bestSolution.size() != workingGraph.getNumberOfNodes()));
   return auxBestSolutionValue;
 }

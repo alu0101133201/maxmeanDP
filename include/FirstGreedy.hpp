@@ -16,9 +16,9 @@
 #include "Graph.hpp"
 #include "Maxmeandp.hpp"
 
-class FirstGreedy : public Maxmeandp{
+class FirstGreedy : public Maxmeandp {
   private:
-    float getConnectedMax(void);
+    float getBestMean(void);
     float getMax(void);
 
   public:

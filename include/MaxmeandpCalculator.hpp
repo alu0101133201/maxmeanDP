@@ -27,9 +27,7 @@ class MaxmeandpCalculator {
     ~MaxmeandpCalculator();
 
     void setStrategy(Maxmeandp*);
-    int solve();
+    float solve();
     
     std::ostream& write(std::ostream& os);
-
-
 };
