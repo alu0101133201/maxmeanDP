@@ -40,31 +40,37 @@ float SecondGreedy::solve() {
 float SecondGreedy::deleteWorstNode() {
   float minValue = FLT_MAX;
   int minNode = -1;
-
-  size_t currentNode = 0;
-  for (int iIter = bestSolution[currentNode]; currentNode != bestSolution.size();
-      iIter = bestSolution[++currentNode]) {
+  
+  size_t nodeIter = 0;
+  for (int currentNode = bestSolution[nodeIter]; nodeIter != bestSolution.size();
+      currentNode = bestSolution[++nodeIter]) {
     for (int jIter = 0; jIter < workingGraph.getNumberOfNodes(); jIter++) {
-      if ((workingGraph.at(iIter, jIter) < minValue) && (isInSolution(jIter))) {
-        minValue = workingGraph.at(iIter, jIter);
-        minNode = iIter;
-      } else if ((workingGraph.at(iIter, jIter) == minValue) && (isInSolution(jIter))) {
+      if ((workingGraph.at(currentNode, jIter) < minValue) && (isInSolution(jIter))) {
+        minValue = workingGraph.at(currentNode, jIter);
+
+        // Selección aleatoria de uno de los dos nodos
         int randomNumber = rand() % 2;
         if (randomNumber == 1) {
-          minValue = workingGraph.at(iIter, jIter);
-          minNode = iIter;
+          minNode = currentNode;
+        } else {
+          minNode = jIter;
+        }
+      } else if ((workingGraph.at(currentNode, jIter) == minValue) && (isInSolution(jIter))) {
+        int randomNumber = rand() % 3;
+        if (randomNumber == 1) {
+          minNode = currentNode;
+        } else if (randomNumber == 2){
+          minNode = jIter;
         }
       }
     }
   }
 
-  for (auto iter = bestSolution.begin(); iter != bestSolution.end(); iter++) {
-    if (*iter == minNode)
+  for (std::vector<int>::iterator iter = bestSolution.begin(); iter <= bestSolution.end(); iter++) {
+    if (*iter == minNode) {
       bestSolution.erase(iter);
+    }
   }
-    for (int i = 0; i < bestSolution.size(); i++) 
-    std::cout << bestSolution[i] << " ";
-
 
   return minValue;
 }
