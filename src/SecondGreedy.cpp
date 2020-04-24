@@ -65,12 +65,10 @@ float SecondGreedy::deleteWorstNode() {
       }
     }
   }
-
   for (std::vector<int>::iterator iter = bestSolution.begin(); iter <= bestSolution.end(); iter++) {
     if (*iter == minNode) {
       bestSolution.erase(iter);
     }
   }
-
   return minValue;
 }

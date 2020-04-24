@@ -32,12 +32,12 @@ int main(int argc, char *argv[]) {
       Maxmeandp* grasp = new Grasp(firstGraph, 3);
       MaxmeandpCalculator algorithmInterface(alg1);
       algorithmInterface.solve();
-      // std::cout << "FIRST GREEDY: " << "\n";
+      std::cout << "FIRST GREEDY: " << "\n";
       algorithmInterface.write(std::cout);
-      // algorithmInterface.setStrategy(alg2);
-      // algorithmInterface.solve();   
-      // std::cout << "\nSECOND GREEDY: " << "\n";
-      // algorithmInterface.write(std::cout);
+      algorithmInterface.setStrategy(alg2);
+      algorithmInterface.solve();   
+      std::cout << "\nSECOND GREEDY: " << "\n";
+      algorithmInterface.write(std::cout);
  
       
   } catch(const char* e) {
