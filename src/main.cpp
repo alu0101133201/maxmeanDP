@@ -16,10 +16,12 @@
 #include "Grasp.hpp"
 #include "Maxmeandp.hpp"
 #include "MaxmeandpCalculator.hpp"
+#include "multiBooting.hpp"
 
 #define ITERATIONS 0
 #define WITHOUTIMPROVE 1
-#define GRASPITERATIONS 10
+#define GRASPITERATIONS 100
+#define MULTIBOOTITERATIONS 100
 #define CARDINALITY 4
 #define OPEN 0
 #define CLOSE 1
@@ -40,19 +42,24 @@ int main(int argc, char *argv[]) {
       Maxmeandp* alg2 = new SecondGreedy(firstGraph);
       Maxmeandp* grasp = new Grasp(firstGraph, CARDINALITY, ITERATIONS,
           GRASPITERATIONS, GREEDY, CLOSE);
+      Maxmeandp* multiBooting = new MultiBooting(firstGraph, ITERATIONS,
+          MULTIBOOTITERATIONS, GREEDY, CLOSE);
       MaxmeandpCalculator algorithmInterface(alg1);
-      std::cout << "FIRST GREEDY: " << "\n";
-      algorithmInterface.solve();   
-      algorithmInterface.write(std::cout);
-      std::cout << "\nSECOND GREEDY: " << "\n";
-      algorithmInterface.setStrategy(alg2);
-      algorithmInterface.solve();   
-      algorithmInterface.write(std::cout);
-      std::cout << "\nGRASP: " << "\n";
-      algorithmInterface.setStrategy(grasp);
+      // std::cout << "FIRST GREEDY: " << "\n";
+      // algorithmInterface.solve();   
+      // algorithmInterface.write(std::cout);
+      // std::cout << "\nSECOND GREEDY: " << "\n";
+      // algorithmInterface.setStrategy(alg2);
+      // algorithmInterface.solve();   
+      // algorithmInterface.write(std::cout);
+      // std::cout << "\nGRASP: " << "\n";
+      // algorithmInterface.setStrategy(grasp);
+      // algorithmInterface.solve();
+      // algorithmInterface.write(std::cout);
+      std::cout << "\nMULTIBOOTING: \n";
+      algorithmInterface.setStrategy(multiBooting);
       algorithmInterface.solve();
-      algorithmInterface.write(std::cout);
- 
+      algorithmInterface.write(std::cout); 
       
   } catch(const char* e) {
     std::cout << e;

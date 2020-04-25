@@ -44,6 +44,8 @@ class Maxmeandp {
     void greedyLocalSearch();
     void anxiousLocalSearch();
     std::vector<int> generateNeighbour(int node);
+    void postProcessing();
+
 
   public:
     Maxmeandp(Graph myGraph);

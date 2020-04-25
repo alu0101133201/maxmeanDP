@@ -28,7 +28,6 @@ class Grasp : public Maxmeandp {
     void buildLRC();
     void addLRC(int, float, int&, float&);
     // void preprocessing();
-    void postProcessing();
     
   public:
     Grasp(Graph workingGraph, int numberOfCardinality, int stopCriteria, int maxIterations,

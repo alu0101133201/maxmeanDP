@@ -86,18 +86,18 @@ void Grasp::buildLRC() {
 
 // }
 
-void Grasp::postProcessing() {
-  switch (localType) {
-    case (GREEDY):
-      greedyLocalSearch();
-      break;
-    case (ANXIOUS):
-      anxiousLocalSearch();
-      break;
-    default:
-      throw "Invalid case\n";
-  }
-}
+// void Grasp::postProcessing() {
+//   switch (localType) {
+//     case (GREEDY):
+//       greedyLocalSearch();
+//       break;
+//     case (ANXIOUS):
+//       anxiousLocalSearch();
+//       break;
+//     default:
+//       throw "Invalid case\n";
+//   }
+// }
 
 float Grasp::construct() {
   bestSolutionValue = getMax();

@@ -135,6 +135,20 @@ void Maxmeandp::greedyLocalSearch() {
   } while (updateFlag);
 }
 
+
+void Maxmeandp::postProcessing() {
+  switch (localType) {
+    case (GREEDY):
+      greedyLocalSearch();
+      break;
+    case (ANXIOUS):
+      anxiousLocalSearch();
+      break;
+    default:
+      throw "Invalid case\n";
+  }
+}
+
 void Maxmeandp::anxiousLocalSearch() {
   std::vector<int> newSolution;
   float auxValue;
