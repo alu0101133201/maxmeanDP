@@ -39,7 +39,7 @@ int main(int argc, char *argv[]) {
       Maxmeandp* alg1 = new FirstGreedy(firstGraph);
       Maxmeandp* alg2 = new SecondGreedy(firstGraph);
       Maxmeandp* grasp = new Grasp(firstGraph, CARDINALITY, ITERATIONS,
-          GRASPITERATIONS, ANXIOUS, CLOSE);
+          GRASPITERATIONS, GREEDY, CLOSE);
       MaxmeandpCalculator algorithmInterface(alg1);
       std::cout << "FIRST GREEDY: " << "\n";
       algorithmInterface.solve();   

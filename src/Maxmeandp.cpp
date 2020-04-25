@@ -97,27 +97,40 @@ bool Maxmeandp::stopCriteria(int currentIterations) {
 }
 
 void Maxmeandp::greedyLocalSearch() {
+  std::vector<int> newSolution;
+  std::vector<int> currentSolution = bestSolution;
+  float currentValue = bestSolutionValue;
+  float auxValue;
+  bool updateFlag;
+
+  do {
+    updateFlag = false;
+    for (int nodeIter = 0; nodeIter < workingGraph.getNumberOfNodes(); nodeIter++) {
+      newSolution = generateNeighbour(nodeIter);
+      auxValue = mdFromSet(newSolution);
+
+      if (auxValue > currentValue) {
+        currentSolution = newSolution;
+        currentValue = auxValue;
+        updateFlag = true;
+      }
+    }
+    bestSolution = currentSolution;
+    bestSolutionValue = currentValue;
+  } while (updateFlag);
 }
 
 void Maxmeandp::anxiousLocalSearch() {
   std::vector<int> newSolution;
   float auxValue;
-  std::cout << "EN LA ANSIOSAA:\n";
-  for (int i = 0; i < bestSolution.size(); i++)
-    std::cout << bestSolution[i] << " ";
 
   for (int nodeIter = 0; nodeIter < workingGraph.getNumberOfNodes(); nodeIter++) {
     newSolution = generateNeighbour(nodeIter);
     auxValue = mdFromSet(newSolution);
 
-    std::cout << "\nBest mean: " << bestSolutionValue << " media veina: " << auxValue << "\n";
-    for (int i = 0; i < newSolution.size(); i++)
-      std::cout << newSolution[i] << " ";
-
     if (auxValue > bestSolutionValue) {
       bestSolution = newSolution;
       bestSolutionValue = auxValue;
-      std::cout << "ESTOY ACTUALIZANDO\n";
       break;
     }
   }
