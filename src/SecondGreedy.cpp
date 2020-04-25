@@ -26,8 +26,9 @@ float SecondGreedy::solve() {
 
   do {
     auxSolution = bestSolution;
-    deleteWorstNode();
-    auxBestSolutionValue = mdFromSet(bestSolution);
+    float deletedNode = deleteWorstNode();
+    auxBestSolutionValue = mdsubNode(bestSolutionValue ,bestSolution, deletedNode);
+    
     if (auxBestSolutionValue >= bestSolutionValue)
       bestSolutionValue = auxBestSolutionValue;
     else 
@@ -70,5 +71,5 @@ float SecondGreedy::deleteWorstNode() {
       bestSolution.erase(iter);
     }
   }
-  return minValue;
+  return minNode;
 }

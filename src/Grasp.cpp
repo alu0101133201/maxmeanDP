@@ -73,8 +73,9 @@ void Grasp::buildLRC() {
   for (int nodeIter = 0; nodeIter < workingGraph.getNumberOfNodes(); nodeIter++) {
     if (!isInSolution(nodeIter)) {
       float currentValue;
+
       bestSolution.push_back(nodeIter);
-      currentValue = mdFromSet(bestSolution);
+      currentValue = mdaddNode(bestSolutionValue, bestSolution, nodeIter);
       addLRC(nodeIter, currentValue, minNode, lrcMin);
       bestSolution.pop_back();
     }

@@ -25,7 +25,7 @@ void Graph::build(std::string fileName) {
     throw "Problem opening graph file\n";
   }
   graphFile >> numberOfNodes;
-  adjacencyMatrix.resize(numberOfNodes * numberOfNodes, -1);
+  adjacencyMatrix.resize(numberOfNodes * numberOfNodes, 0);
 
   while (!graphFile.eof()) {
     int readData = 0;

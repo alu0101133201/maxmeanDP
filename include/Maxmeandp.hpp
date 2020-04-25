@@ -54,6 +54,9 @@ class Maxmeandp {
 
     float md(float);
     float mdFromSet(std::vector<int>);
+    float mdaddNode(float, std::vector<int>, int);
+    float mdsubNode(float, std::vector<int>, int);
+
     bool isInSolution(int);
     virtual float solve() = 0;
 

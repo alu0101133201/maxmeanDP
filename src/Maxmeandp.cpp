@@ -40,15 +40,30 @@ bool Maxmeandp::isInSolution(int node) {
 float Maxmeandp::mdFromSet(std::vector<int> nodeSet) {
   float ValueSum = 0;
 
-  // std::cout << "\n\n";
-  // for (int i = 0; i < nodeSet.size(); i++)
-  //   std::cout << nodeSet[i] << " ";
   for (size_t iter = 0; iter < nodeSet.size(); iter++) {
     for (size_t secondIter = iter + 1; secondIter < nodeSet.size(); secondIter++) {
       ValueSum += workingGraph.at(nodeSet[iter], nodeSet[secondIter]);
     }
   }
   return ValueSum / nodeSet.size();
+}
+
+float Maxmeandp::mdaddNode(float currentValue, std::vector<int> nodeSet, int node) {
+  float addingNumerator = 0;
+  for (int nodeIter = 0; nodeIter < nodeSet.size(); nodeIter++) {
+    if (nodeSet[nodeIter] != node)
+      addingNumerator += workingGraph.at(nodeSet[nodeIter], node);
+  }
+  return (((currentValue * (nodeSet.size() - 1)) + addingNumerator) / nodeSet.size());
+}
+
+
+float Maxmeandp::mdsubNode(float currentValue, std::vector<int> nodeSet, int node) {
+  float addingNumerator = 0;
+  for (int nodeIter = 0; nodeIter < nodeSet.size(); nodeIter++) {
+      addingNumerator += workingGraph.at(nodeSet[nodeIter], node);
+  }
+  return (((currentValue * (nodeSet.size() + 1)) - addingNumerator) / nodeSet.size());
 }
 
 

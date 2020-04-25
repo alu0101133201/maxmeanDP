@@ -23,12 +23,14 @@ float FirstGreedy::getBestMean(void) {
     float bestValue = FLT_MIN;
     int bestNode;
 
+
     for (int nodeIter = 0; nodeIter < workingGraph.getNumberOfNodes(); nodeIter++) {
       if (!isInSolution(nodeIter)) {
         float currentValue;
 
         bestSolutionAux.push_back(nodeIter);
-        currentValue = mdFromSet(bestSolutionAux);
+        currentValue = mdaddNode(bestSolutionValue, bestSolutionAux, nodeIter);
+
         if (bestValue < currentValue) {
           bestValue = currentValue;
           bestNode = nodeIter;
