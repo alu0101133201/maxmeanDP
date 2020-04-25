@@ -11,18 +11,20 @@
 
 #include <cfloat>
 #include <stdlib.h>
-#include <time.h>   
+#include <time.h>  
+#include <utility> 
 
 #include "Graph.hpp"
 #include "Maxmeandp.hpp"
 
 class Grasp : public Maxmeandp {
   private:
-    std::vector<int> LRC;
+    std::vector<std::pair<int, float> > LRC;
     int cardinality;
 
     float construct();
     void buildLRC();
+    void addLRC(int, float, int&, float&);
 
   public:
     Grasp(Graph, int);

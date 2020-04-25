@@ -29,15 +29,15 @@ int main(int argc, char *argv[]) {
       Graph firstGraph(fileName);
       Maxmeandp* alg1 = new FirstGreedy(firstGraph);
       Maxmeandp* alg2 = new SecondGreedy(firstGraph);
-      Maxmeandp* grasp = new Grasp(firstGraph, 3);
-      MaxmeandpCalculator algorithmInterface(alg1);
+      Maxmeandp* grasp = new Grasp(firstGraph, 2);
+      MaxmeandpCalculator algorithmInterface(grasp);
       algorithmInterface.solve();
-      std::cout << "FIRST GREEDY: " << "\n";
-      algorithmInterface.write(std::cout);
-      algorithmInterface.setStrategy(alg2);
-      algorithmInterface.solve();   
-      std::cout << "\nSECOND GREEDY: " << "\n";
-      algorithmInterface.write(std::cout);
+      // std::cout << "FIRST GREEDY: " << "\n";
+      // algorithmInterface.write(std::cout);
+      // algorithmInterface.setStrategy(alg2);
+      // algorithmInterface.solve();   
+      // std::cout << "\nSECOND GREEDY: " << "\n";
+      // algorithmInterface.write(std::cout);
  
       
   } catch(const char* e) {

@@ -9,7 +9,6 @@
 
 #pragma once
 
-#include <cfloat>
 #include <stdlib.h>
 #include <time.h>      
 
@@ -19,7 +18,6 @@
 class FirstGreedy : public Maxmeandp {
   private:
     float getBestMean(void);
-    float getMax(void);
 
   public:
     FirstGreedy(Graph);

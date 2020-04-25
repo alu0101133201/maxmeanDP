@@ -11,6 +11,8 @@
 #pragma once
 
 #include <vector>
+#include <cfloat>
+
 #include "Graph.hpp"
 
 class Maxmeandp {
@@ -18,6 +20,8 @@ class Maxmeandp {
     Graph workingGraph;
     std::vector<int> bestSolution;
     float bestSolutionValue;
+
+    float getMax(void);
 
   public:
     Maxmeandp(Graph myGraph);
