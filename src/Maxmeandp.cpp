@@ -10,7 +10,8 @@
 
 #include "Maxmeandp.hpp"
 
-Maxmeandp::Maxmeandp(Graph myGraph) {
+Maxmeandp::Maxmeandp(Graph myGraph):
+  iterationsWithOutImprove(0) {
   workingGraph = myGraph;
 }
 
@@ -52,6 +53,7 @@ float Maxmeandp::mdFromSet(std::vector<int> nodeSet) {
 
 
 float Maxmeandp::getMax(void) {
+  bestSolution.clear();
   float maxValue = FLT_MIN;
   int maxI = -1;
   int maxJ = -1;
@@ -77,6 +79,73 @@ float Maxmeandp::getMax(void) {
   return maxValue / 2.0;
 }
 
+bool Maxmeandp::stopCriteria(int currentIterations) {
+  switch(stopCriteria_) {
+    case (ITERACIONES):
+      if (currentIterations >= iterationLimit)
+        return true;
+      break;
+    case (SINMEJORA):
+      if (iterationsWithOutImprove >= iterationLimit)
+        return true;
+      break;
+    default:
+      throw "Caso inválido\n";
+      break;
+  }
+  return false;
+}
+
+void Maxmeandp::greedyLocalSearch() {
+}
+
+void Maxmeandp::anxiousLocalSearch() {
+  std::vector<int> newSolution;
+  float auxValue;
+  std::cout << "EN LA ANSIOSAA:\n";
+  for (int i = 0; i < bestSolution.size(); i++)
+    std::cout << bestSolution[i] << " ";
+
+  for (int nodeIter = 0; nodeIter < workingGraph.getNumberOfNodes(); nodeIter++) {
+    newSolution = generateNeighbour(nodeIter);
+    auxValue = mdFromSet(newSolution);
+
+    std::cout << "\nBest mean: " << bestSolutionValue << " media veina: " << auxValue << "\n";
+    for (int i = 0; i < newSolution.size(); i++)
+      std::cout << newSolution[i] << " ";
+
+    if (auxValue > bestSolutionValue) {
+      bestSolution = newSolution;
+      bestSolutionValue = auxValue;
+      std::cout << "ESTOY ACTUALIZANDO\n";
+      break;
+    }
+  }
+}
+
+std::vector<int> Maxmeandp::generateNeighbour(int node) {
+  std::vector<int> neighbourSolution = bestSolution;
+
+  switch(envirnomentType){
+    case (OPEN):
+      if (!isInSolution(node)) {
+        neighbourSolution.push_back(node);
+      }
+      break;
+    case (CLOSE):
+      if (isInSolution(node)) {
+        for (auto iter = neighbourSolution.begin(); iter <= neighbourSolution.end(); iter++) {
+          if (*iter == node) {
+            neighbourSolution.erase(iter);
+          }
+        }
+      }
+      break;
+    default:
+      throw "Invalid case\n";
+  }
+  return neighbourSolution;
+}
 
 
 std::ostream& Maxmeandp::write(std::ostream& os) {

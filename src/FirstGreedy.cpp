@@ -14,32 +14,6 @@ FirstGreedy::FirstGreedy(Graph workingGraph):
   srand (time(NULL));
 }
 
-// float FirstGreedy::getMax(void) {
-//   float maxValue = FLT_MIN;
-//   int maxI = -1;
-//   int maxJ = -1;
-
-//   for (int iIter = 0; iIter < workingGraph.getNumberOfNodes(); iIter++) {
-//     for (int jIter = iIter; jIter < workingGraph.getNumberOfNodes(); jIter++) {
-//       if (workingGraph.at(iIter, jIter) > maxValue) {
-//         maxValue = workingGraph.at(iIter, jIter);
-//         maxI = iIter;
-//         maxJ = jIter;
-//       } else if (workingGraph.at(iIter, jIter) == maxValue) {
-//         int randomNumber = rand() % 2;
-//         if (randomNumber == 1) {
-//           maxValue = workingGraph.at(iIter, jIter);
-//           maxI = iIter;
-//           maxJ = jIter;  
-//         }
-//       }
-//     }
-//   }
-//   bestSolution.push_back(maxI);
-//   bestSolution.push_back(maxJ);
-//   return maxValue / 2.0;
-// }
-
 float FirstGreedy::getBestMean(void) {
 
   if (bestSolution.size() == 0) {

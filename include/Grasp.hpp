@@ -17,6 +17,8 @@
 #include "Graph.hpp"
 #include "Maxmeandp.hpp"
 
+
+
 class Grasp : public Maxmeandp {
   private:
     std::vector<std::pair<int, float> > LRC;
@@ -25,9 +27,12 @@ class Grasp : public Maxmeandp {
     float construct();
     void buildLRC();
     void addLRC(int, float, int&, float&);
-
+    // void preprocessing();
+    void postProcessing();
+    
   public:
-    Grasp(Graph, int);
+    Grasp(Graph workingGraph, int numberOfCardinality, int stopCriteria, int maxIterations,
+        int typeLocal, int environment);
     ~Grasp();
 
     float solve();

@@ -9,9 +9,18 @@
 
 #include "Grasp.hpp"
 
-Grasp::Grasp(Graph workingGraph, int numberOfCardinality):
+Grasp::Grasp(Graph workingGraph, int numberOfCardinality, int stopCriteria, int maxIterations,
+    int typeLocal, int environment):
     Maxmeandp(workingGraph),
     cardinality(numberOfCardinality) {
+  // Condición de parada
+  stopCriteria_ = stopCriteria;
+  iterationLimit = maxIterations;
+
+  // Búsqueda local
+  localType = typeLocal;
+  envirnomentType = environment;
+
   srand (time(NULL));
   LRC.resize(0);
 }
@@ -29,34 +38,41 @@ void Grasp::addLRC(int node, float value, int& minNode, float& min) {
     LRC.push_back(dummy);
   } else {
     if (value > min) {
-      int newMin = LRC[0].second;
+      float newMin = LRC[0].second;
+      int newMinIndex = 0;
+
       for (int minIter = 0; minIter < LRC.size(); minIter++) {
         if (LRC[minIter].first == minNode) {
-          LRC[minNode].first = node; 
-          LRC[minNode].second = value;
+          LRC[minIter].first = node; 
+          LRC[minIter].second = value;
         }
         if (LRC[minIter].second < newMin) {
-          newMin = LRC[minIter].first;
+          newMin = LRC[minIter].second;
+          newMinIndex = minIter;
+        } else if (LRC[minIter].second == newMin) {
+          int randomNumber = rand() % 2;
+          if (randomNumber == 1) {
+            newMinIndex = minIter;
+          }
         }
       }     
-      minNode = LRC[newMin].first;
-      min = LRC[newMin].second;
+      minNode = LRC[newMinIndex].first;
+      min = LRC[newMinIndex].second;
     }
   }
 }
 
 void Grasp::buildLRC() {
-  LRC.resize(0);
+  LRC.clear();
   float lrcMin = FLT_MAX;
   int minNode = -1;
 
   if (bestSolution.size() == 0) {
-    getMax();
+    throw "Intentando crear LRC con el conjunto de solución vacío\n";
   }
   for (int nodeIter = 0; nodeIter < workingGraph.getNumberOfNodes(); nodeIter++) {
     if (!isInSolution(nodeIter)) {
       float currentValue;
-
       bestSolution.push_back(nodeIter);
       currentValue = mdFromSet(bestSolution);
       addLRC(nodeIter, currentValue, minNode, lrcMin);
@@ -65,15 +81,65 @@ void Grasp::buildLRC() {
   }
 }
 
+// void Grasp::preprocessing() {
+
+// }
+
+void Grasp::postProcessing() {
+  switch (localType) {
+    case (GREEDY):
+      greedyLocalSearch();
+      break;
+    case (ANXIOUS):
+      anxiousLocalSearch();
+      break;
+    default:
+      throw "Invalid case\n";
+  }
+}
+
 float Grasp::construct() {
-  buildLRC();
-  for (int i = 0; i < LRC.size(); i++)
-    std::cout << "-- " << LRC[i].first <<  " - " << LRC[i].second << "|";
-  std::cout << "\n";
-  return 1.0;
+  bestSolutionValue = getMax();
+  std::vector<int> auxSolution; 
+  float auxBestSolutionValue = bestSolutionValue;
+
+  do {
+    auxSolution = bestSolution;
+    buildLRC();
+    int randomNumber = rand() % cardinality;
+    auxBestSolutionValue = LRC[randomNumber].second;
+    if (auxBestSolutionValue > bestSolutionValue) {
+      bestSolution.push_back(LRC[randomNumber].first);
+      bestSolutionValue = LRC[randomNumber].second;
+    }
+
+  } while(auxSolution != bestSolution);
+  return bestSolutionValue;
 }
 
 float Grasp::solve() {
- construct();
-  return 1.0;
+  int iteration = 0;
+  std::vector<int> bestGraspSolution;
+  float bestGraspValue = FLT_MIN;
+  // preprocessing();
+
+  do {
+    construct();
+    postProcessing();
+
+    if (bestSolutionValue > bestGraspValue) {
+      bestGraspValue = bestSolutionValue;
+      bestGraspSolution = bestSolution;
+      iterationsWithOutImprove = 0;
+    } else {
+      iterationsWithOutImprove++;
+    }
+    iteration++;
+  } while(!stopCriteria(iteration));
+
+  bestSolutionValue = bestGraspValue;
+  bestSolution = bestGraspSolution;
+
+
+  return bestSolutionValue;
 }

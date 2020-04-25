@@ -15,13 +15,35 @@
 
 #include "Graph.hpp"
 
+#define ITERACIONES 0
+#define SINMEJORA 1
+#define OPEN 0
+#define CLOSE 1
+#define GREEDY 0
+#define ANXIOUS 1
+
 class Maxmeandp {
   protected:
+    // Atributos básicos
     Graph workingGraph;
     std::vector<int> bestSolution;
     float bestSolutionValue;
 
+    // Atributos de criterio de parada
+    int iterationsWithOutImprove;
+    int stopCriteria_;
+    int iterationLimit;
+
+    // Atributos para la búsqueda local
+    int localType;
+    int envirnomentType;
+
     float getMax(void);
+    bool stopCriteria(int);
+
+    void greedyLocalSearch();
+    void anxiousLocalSearch();
+    std::vector<int> generateNeighbour(int node);
 
   public:
     Maxmeandp(Graph myGraph);

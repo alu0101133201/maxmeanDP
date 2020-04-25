@@ -17,6 +17,15 @@
 #include "Maxmeandp.hpp"
 #include "MaxmeandpCalculator.hpp"
 
+#define ITERATIONS 0
+#define WITHOUTIMPROVE 1
+#define GRASPITERATIONS 10
+#define CARDINALITY 4
+#define OPEN 0
+#define CLOSE 1
+#define GREEDY 0
+#define ANXIOUS 1
+
 int main(int argc, char *argv[]) {
 
   try {
@@ -29,15 +38,20 @@ int main(int argc, char *argv[]) {
       Graph firstGraph(fileName);
       Maxmeandp* alg1 = new FirstGreedy(firstGraph);
       Maxmeandp* alg2 = new SecondGreedy(firstGraph);
-      Maxmeandp* grasp = new Grasp(firstGraph, 2);
-      MaxmeandpCalculator algorithmInterface(grasp);
+      Maxmeandp* grasp = new Grasp(firstGraph, CARDINALITY, ITERATIONS,
+          GRASPITERATIONS, ANXIOUS, CLOSE);
+      MaxmeandpCalculator algorithmInterface(alg1);
+      std::cout << "FIRST GREEDY: " << "\n";
+      algorithmInterface.solve();   
+      algorithmInterface.write(std::cout);
+      std::cout << "\nSECOND GREEDY: " << "\n";
+      algorithmInterface.setStrategy(alg2);
+      algorithmInterface.solve();   
+      algorithmInterface.write(std::cout);
+      std::cout << "\nGRASP: " << "\n";
+      algorithmInterface.setStrategy(grasp);
       algorithmInterface.solve();
-      // std::cout << "FIRST GREEDY: " << "\n";
-      // algorithmInterface.write(std::cout);
-      // algorithmInterface.setStrategy(alg2);
-      // algorithmInterface.solve();   
-      // std::cout << "\nSECOND GREEDY: " << "\n";
-      // algorithmInterface.write(std::cout);
+      algorithmInterface.write(std::cout);
  
       
   } catch(const char* e) {
