@@ -17,6 +17,7 @@
 #include "Maxmeandp.hpp"
 #include "MaxmeandpCalculator.hpp"
 #include "multiBooting.hpp"
+#include "VNS.hpp"
 
 #define ITERATIONS 0
 #define WITHOUTIMPROVE 1
@@ -44,6 +45,8 @@ int main(int argc, char *argv[]) {
           GRASPITERATIONS, GREEDY, CLOSE);
       Maxmeandp* multiBooting = new MultiBooting(firstGraph, ITERATIONS,
           MULTIBOOTITERATIONS, GREEDY, CLOSE);
+      Maxmeandp* myVNS = new VNS(firstGraph, CARDINALITY, ITERATIONS,
+          MULTIBOOTITERATIONS, GREEDY, CLOSE);
       MaxmeandpCalculator algorithmInterface(alg1);
       // std::cout << "FIRST GREEDY: " << "\n";
       // algorithmInterface.solve();   
@@ -56,8 +59,12 @@ int main(int argc, char *argv[]) {
       // algorithmInterface.setStrategy(grasp);
       // algorithmInterface.solve();
       // algorithmInterface.write(std::cout);
-      std::cout << "\nMULTIBOOTING: \n";
-      algorithmInterface.setStrategy(multiBooting);
+      // std::cout << "\nMULTIBOOTING: \n";
+      // algorithmInterface.setStrategy(multiBooting);
+      // algorithmInterface.solve();
+      // algorithmInterface.write(std::cout); 
+      std::cout << "\nBVNS: \n";
+      algorithmInterface.setStrategy(myVNS);
       algorithmInterface.solve();
       algorithmInterface.write(std::cout); 
       

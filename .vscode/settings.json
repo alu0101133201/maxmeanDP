@@ -45,7 +45,8 @@
     "stdexcept": "cpp",
     "streambuf": "cpp",
     "typeinfo": "cpp",
-    "climits": "cpp"
+    "climits": "cpp",
+    "cfloat": "cpp"
   },
   "terminal.integrated.shell.windows": "cmd.exe"
 }

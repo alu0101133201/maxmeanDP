@@ -140,7 +140,5 @@ float Grasp::solve() {
 
   bestSolutionValue = bestGraspValue;
   bestSolution = bestGraspSolution;
-
-
   return bestSolutionValue;
 }

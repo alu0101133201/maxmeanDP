@@ -45,6 +45,7 @@ class Maxmeandp {
     void anxiousLocalSearch();
     std::vector<int> generateNeighbour(int node);
     void postProcessing();
+    void generateRandom();
 
 
   public:
@@ -58,6 +59,9 @@ class Maxmeandp {
     float mdFromSet(std::vector<int>);
     float mdaddNode(float, std::vector<int>, int);
     float mdsubNode(float, std::vector<int>, int);
+
+    float getSolutionValue();
+    std::vector<int> getSolution();
 
     bool isInSolution(int);
     virtual float solve() = 0;

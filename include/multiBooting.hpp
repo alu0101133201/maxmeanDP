@@ -13,7 +13,7 @@
 
 class MultiBooting : public Maxmeandp {
   private:
-    void generateRandom();
+    // void generateRandom();
     
   public:
     MultiBooting(Graph workingGraph, int stopCriteria, int maxIterations,

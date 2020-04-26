@@ -37,6 +37,14 @@ bool Maxmeandp::isInSolution(int node) {
   return false;
 }
 
+float Maxmeandp::getSolutionValue() {
+  return(bestSolutionValue);
+}
+
+std::vector<int> Maxmeandp::getSolution() {
+  return(bestSolution);
+}
+
 float Maxmeandp::mdFromSet(std::vector<int> nodeSet) {
   float ValueSum = 0;
 
@@ -94,6 +102,18 @@ float Maxmeandp::getMax(void) {
   return maxValue / 2.0;
 }
 
+void Maxmeandp::generateRandom() {
+  int solutionSize = (rand() % (workingGraph.getNumberOfNodes() - 2)) + 2;
+  bestSolution.clear();
+  
+  for (int nodeIter = 0; nodeIter < solutionSize; nodeIter++) {
+    int randomNumber = rand() % workingGraph.getNumberOfNodes();
+    if (!isInSolution(randomNumber))
+      bestSolution.push_back(randomNumber);
+  }
+  bestSolutionValue = mdFromSet(bestSolution);
+}
+
 bool Maxmeandp::stopCriteria(int currentIterations) {
   switch(stopCriteria_) {
     case (ITERACIONES):
@@ -145,7 +165,7 @@ void Maxmeandp::postProcessing() {
       anxiousLocalSearch();
       break;
     default:
-      throw "Invalid case\n";
+      throw "Invalid case - postProcessing\n";
   }
 }
 
