@@ -12,10 +12,12 @@
 bool repetido(std::vector<int>& vector) {
   std::vector<bool> aux(vector.size(), false);
   for (int i = 0; i < vector.size(); i++) {
-    if (!aux[aux[i]])
-      aux[i] = true;
-    else 
+    if (!aux[vector[i]]) {
+      aux[vector[i]] = true;
+    }
+    else {
       return true;
+    }
   }
   return false;
 }
@@ -93,48 +95,21 @@ void Grasp::buildLRC() {
   }
 }
 
-// void Grasp::preprocessing() {
-
-// }
-
-// void Grasp::postProcessing() {
-//   switch (localType) {
-//     case (GREEDY):
-//       greedyLocalSearch();
-//       break;
-//     case (ANXIOUS):
-//       anxiousLocalSearch();
-//       break;
-//     default:
-//       throw "Invalid case\n";
-//   }
-// }
 
 float Grasp::construct() {
   bestSolutionValue = getMax();
   std::vector<int> auxSolution; 
   float auxBestSolutionValue = bestSolutionValue;
 
-     if(repetido(bestSolution)) {
-      std::cout << "Principio do\n";
-      exit(1);
-    }
   do {
-
-
     auxSolution = bestSolution;
     buildLRC();
-    int randomNumber = rand() % cardinality;
+    int randomNumber = rand() % LRC.size();
     auxBestSolutionValue = LRC[randomNumber].second;
     if (auxBestSolutionValue > bestSolutionValue) {
       bestSolution.push_back(LRC[randomNumber].first);
       bestSolutionValue = LRC[randomNumber].second;
     }
-     if(repetido(bestSolution)) {
-      std::cout << "Principio do\n";
-      exit(1);
-    }
-
   } while(auxSolution != bestSolution);
   return bestSolutionValue;
 }
@@ -147,9 +122,7 @@ float Grasp::solve() {
 
   do {
     construct();
-
     postProcessing();
- 
 
     if (bestSolutionValue > bestGraspValue) {
       bestGraspValue = bestSolutionValue;

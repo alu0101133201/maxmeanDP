@@ -106,11 +106,6 @@ float VNS::solve() {
     auxSolution = myGrasp.getBestSolution();
     auxValue = myGrasp.getBestSoluctionValue();
 
-    // std::cout << "\n\n\nGrasp solution: " << auxValue << "\n";
-    // for (int i = 0; i < auxSolution.size(); i++)
-    //   std::cout << auxSolution[i] << " ";
-    // std::cout << "\n";
-
     // A partir de soluciones ranodm
 
     // generateRandom();
