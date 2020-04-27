@@ -21,7 +21,7 @@
 
 #define ITERATIONS 0
 #define WITHOUTIMPROVE 1
-#define GRASPITERATIONS 100
+#define GRASPITERATIONS 3
 #define MULTIBOOTITERATIONS 100
 #define CARDINALITY 4
 #define OPEN 0
@@ -63,7 +63,7 @@ int main(int argc, char *argv[]) {
       // algorithmInterface.setStrategy(multiBooting);
       // algorithmInterface.solve();
       // algorithmInterface.write(std::cout); 
-      std::cout << "\nBVNS: \n";
+      // std::cout << "\nBVNS: \n";
       algorithmInterface.setStrategy(myVNS);
       algorithmInterface.solve();
       algorithmInterface.write(std::cout); 

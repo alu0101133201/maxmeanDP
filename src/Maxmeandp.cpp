@@ -10,6 +10,11 @@
 
 #include "Maxmeandp.hpp"
 
+
+
+
+
+
 Maxmeandp::Maxmeandp(Graph myGraph):
   iterationsWithOutImprove(0) {
   workingGraph = myGraph;
@@ -199,8 +204,9 @@ std::vector<int> Maxmeandp::generateNeighbour(int node) {
         for (auto iter = neighbourSolution.begin(); iter <= neighbourSolution.end(); iter++) {
           if (*iter == node) {
             neighbourSolution.erase(iter);
+            break;
           }
-        }
+        }  
       }
       break;
     default:

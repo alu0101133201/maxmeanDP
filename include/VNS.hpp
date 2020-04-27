@@ -19,12 +19,14 @@
 #include "Grasp.hpp"
 #include "Maxmeandp.hpp"
 
+
+
 class VNS : public Maxmeandp { 
   private:
     Grasp myGrasp;
 
-  float shake(std::vector<int>& currentSolution, float currentValue, int numberOfChanges);
-  void mainVNS(std::vector<int>& currentSolution, float currentValue);
+  void shake(std::vector<int> currentSolution, float currentValue, int numberOfChanges);
+  void mainVNS(std::vector<int>& currentSolution, float& currentValue);
 
   public:
     VNS(Graph workingGraph, int numberOfCardinality, int stopCriteria, int maxIterations,

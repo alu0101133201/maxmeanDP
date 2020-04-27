@@ -9,6 +9,17 @@
 
 #include "Grasp.hpp"
 
+bool repetido(std::vector<int>& vector) {
+  std::vector<bool> aux(vector.size(), false);
+  for (int i = 0; i < vector.size(); i++) {
+    if (!aux[aux[i]])
+      aux[i] = true;
+    else 
+      return true;
+  }
+  return false;
+}
+
 Grasp::Grasp(Graph workingGraph, int numberOfCardinality, int stopCriteria, int maxIterations,
     int typeLocal, int environment):
     Maxmeandp(workingGraph),
@@ -104,7 +115,13 @@ float Grasp::construct() {
   std::vector<int> auxSolution; 
   float auxBestSolutionValue = bestSolutionValue;
 
+     if(repetido(bestSolution)) {
+      std::cout << "Principio do\n";
+      exit(1);
+    }
   do {
+
+
     auxSolution = bestSolution;
     buildLRC();
     int randomNumber = rand() % cardinality;
@@ -112,6 +129,10 @@ float Grasp::construct() {
     if (auxBestSolutionValue > bestSolutionValue) {
       bestSolution.push_back(LRC[randomNumber].first);
       bestSolutionValue = LRC[randomNumber].second;
+    }
+     if(repetido(bestSolution)) {
+      std::cout << "Principio do\n";
+      exit(1);
     }
 
   } while(auxSolution != bestSolution);
@@ -126,7 +147,9 @@ float Grasp::solve() {
 
   do {
     construct();
+
     postProcessing();
+ 
 
     if (bestSolutionValue > bestGraspValue) {
       bestGraspValue = bestSolutionValue;

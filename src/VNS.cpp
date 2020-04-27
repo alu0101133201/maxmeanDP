@@ -9,6 +9,13 @@
 
 #include "VNS.hpp"
 
+bool inVector(int node, std::vector<int>& myVector) {
+  for (size_t iter = 0; iter < myVector.size(); iter++) {
+    if (myVector[iter] == node) 
+      return true;
+  }
+  return false;
+}
 
 VNS::VNS(Graph workingGraph, int numberOfCardinality, int stopCriteria, int maxIterations,
     int typeLocal, int environment) :
@@ -27,59 +34,62 @@ VNS::VNS(Graph workingGraph, int numberOfCardinality, int stopCriteria, int maxI
 
 VNS::~VNS() {}
 
-float VNS::shake(std::vector<int>& currentSolution, float currentValue, int numberOfChanges) {
+void VNS::shake(std::vector<int> currentSolution, float currentValue, int numberOfChanges) {
   std::vector<int> candidates;
   std::vector<int> shakeSolution = currentSolution;
   float shakeValue = currentValue;
   std::vector<int> swappedNodes(shakeSolution.size(), -1);
+  int swapped = 0;
 
   for (int candidateIter = 0 ; candidateIter < workingGraph.getNumberOfNodes(); candidateIter++) {
-    if (!myGrasp.isInSolution(candidateIter)) {
+    if (!inVector(candidateIter, currentSolution)) {     // NO USO EL MYGRASP YA esther <3
       candidates.push_back(candidateIter);
     }
   }
+
   for (int swapIteration = 0; swapIteration < numberOfChanges; swapIteration++) {
     int randomNumber = rand() % currentSolution.size();
-    std::vector<int>::iterator toSwap = candidates.begin();
-    std::advance(toSwap, (rand() % candidates.size()));
+    std::vector<int>::iterator toSwap;
+
+    if ((candidates.size() != 0) && (swapped != swappedNodes.size())) {
+      toSwap = candidates.begin();
+      std::advance(toSwap, (rand() % candidates.size()));
+    } else {
+      break;
+    }
 
     if (swappedNodes[randomNumber] != 1) {
       shakeSolution[randomNumber] = *toSwap;
+      swapped++;
       swappedNodes[randomNumber] = 1;
       candidates.erase(toSwap);
+      // OJOOO CON LA FUNCIÓN OBJETIVO - ARREGLAR - restar el que quitamos y añadir el nuevo
+      shakeValue = mdFromSet(shakeSolution);
+
     } else {
       swapIteration--;
     }
   }
-  // OJOOO CON LA FUNCIÓN OBJETIVO - ARREGLAR
-  shakeValue = mdFromSet(bestSolution);
-  // bestSolution = shakeSolution;
-  // bestSolutionValue = shakeValue;
-  // postProcessing();
-  // shakeValue = bestSolutionValue;
-  // shakeSolution = bestSolution;
+
+  bestSolution = shakeSolution;
+  bestSolutionValue = shakeValue;
+  postProcessing();
 }
 
 
-void VNS::mainVNS(std::vector<int>& currentSolution, float currentValue) {
+void VNS::mainVNS(std::vector<int>& currentSolution, float& currentValue) {
+
   for (int environment = 1; environment < 4; environment++) {
-    // std::cout << "Antes del shake: " << currentValue << "\n";
-    // for(int i=0; i < currentSolution.size(); i++)
-    //   std::cout << currentSolution[i] << " ";
     shake(currentSolution, currentValue, environment);
-
-    // std::cout << "Después del shake: " << bestSolutionValue << "\n";
-    // for(int i=0; i < bestSolution.size(); i++)
-    //   std::cout << bestSolution[i] << " ";
-
+   
     if (bestSolutionValue > currentValue) {
       environment = 0;
-      currentSolution = bestSolution;
       currentValue = bestSolutionValue;
+      currentSolution = bestSolution;
     }
   }
-  bestSolutionValue = currentValue,
   bestSolution = currentSolution;
+  bestSolutionValue = currentValue;
 }
 
 float VNS::solve() {
@@ -92,20 +102,26 @@ float VNS::solve() {
     float auxValue;
     
     // A partir de GRASP
-    // myGrasp.solve();
-    // auxSolution = myGrasp.getBestSolution();
-    // auxValue = myGrasp.getBestSoluctionValue();
+    myGrasp.solve();
+    auxSolution = myGrasp.getBestSolution();
+    auxValue = myGrasp.getBestSoluctionValue();
+
+    // std::cout << "\n\n\nGrasp solution: " << auxValue << "\n";
+    // for (int i = 0; i < auxSolution.size(); i++)
+    //   std::cout << auxSolution[i] << " ";
+    // std::cout << "\n";
 
     // A partir de soluciones ranodm
-    generateRandom();
-    auxSolution = bestSolution;
-    auxValue = bestSolutionValue;
-    // postProcessing();
+
+    // generateRandom();
+    // auxSolution = bestSolution;
+    // auxValue = bestSolutionValue;
+
     mainVNS(auxSolution, auxValue);
 
     if (bestSolutionValue > bestVNSValue) {
       bestVNSSolution = bestSolution;
-      bestVNSValue = bestVNSValue;
+      bestVNSValue = bestSolutionValue;
       iterationsWithOutImprove = 0;
     } else {
       iterationsWithOutImprove++;
@@ -113,6 +129,9 @@ float VNS::solve() {
 
     iterator++;
   } while(!stopCriteria(iterator));
+
+  bestSolution = bestVNSSolution;
+  bestSolutionValue = bestVNSValue;
   return bestVNSValue;
 }
 
