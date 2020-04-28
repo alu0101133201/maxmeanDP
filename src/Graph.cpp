@@ -27,8 +27,8 @@ void Graph::build(std::string fileName) {
   graphFile >> numberOfNodes;
   adjacencyMatrix.resize(numberOfNodes * numberOfNodes, 0);
 
-  while (!graphFile.eof()) {
-    int readData = 0;
+  while (!graphFile.eof() && (iIndex < numberOfNodes) && (jIndex < numberOfNodes)) {
+    float readData = 0;
     if (iIndex != jIndex) {
       graphFile >> readData;
       setData(iIndex, jIndex, readData);

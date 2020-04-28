@@ -19,12 +19,13 @@
 #include "MaxmeandpCalculator.hpp"
 #include "multiBooting.hpp"
 #include "VNS.hpp"
+#include "mod.hpp"
 
 #define ITERATIONS 0
 #define WITHOUTIMPROVE 1
 #define GRASPITERATIONS 100
 #define MULTIBOOTITERATIONS 100
-#define CARDINALITY 4
+#define CARDINALITY 2
 #define OPEN 0
 #define CLOSE 1
 #define GREEDY 0
@@ -50,32 +51,38 @@ int main(int argc, char *argv[]) {
           MULTIBOOTITERATIONS, GREEDY, CLOSE);
       Maxmeandp* myVNS = new VNS(firstGraph, CARDINALITY, ITERATIONS,
           MULTIBOOTITERATIONS, GREEDY, CLOSE);
+      Maxmeandp* myMod = new Mod(firstGraph, CARDINALITY, ITERATIONS,
+          MULTIBOOTITERATIONS, GREEDY, CLOSE);
       MaxmeandpCalculator algorithmInterface(alg1);
-      std::cout << "FIRST GREEDY: " << "\n";
-      algorithmInterface.solve();   
-      algorithmInterface.write(std::cout);
-      std::cout << "\nSECOND GREEDY: " << "\n";
-      algorithmInterface.setStrategy(alg2);
-      algorithmInterface.solve(); 
-      algorithmInterface.write(std::cout);
-      std::cout << "\nGRASP: " << "\n";
-      algorithmInterface.setStrategy(grasp);
+      // std::cout << "FIRST GREEDY: " << "\n";
+      // algorithmInterface.solve();  
+      // algorithmInterface.write(std::cout);
+      // std::cout << "\nSECOND GREEDY: " << "\n";
+      // algorithmInterface.setStrategy(alg2);
+      // algorithmInterface.solve(); 
+      // algorithmInterface.write(std::cout);
+      // std::cout << "\nGRASP: " << "\n";
+      // algorithmInterface.setStrategy(grasp);
+      // algorithmInterface.solve();
+      // algorithmInterface.write(std::cout);
+      // std::cout << "\nMULTIBOOTING: \n";
+      // algorithmInterface.setStrategy(multiBooting);
+      // algorithmInterface.solve();
+      // algorithmInterface.write(std::cout); 
+      // std::cout << "\nBVNS: \n";
+      // algorithmInterface.setStrategy(myVNS);
+      // algorithmInterface.solve();
+      // algorithmInterface.write(std::cout); 
+      std::cout << "\nMod: \n";
+      algorithmInterface.setStrategy(myMod);
+      std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
       algorithmInterface.solve();
-      algorithmInterface.write(std::cout);
-      std::cout << "\nMULTIBOOTING: \n";
-      algorithmInterface.setStrategy(multiBooting);
-      algorithmInterface.solve();
+      std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
+      std::chrono::duration<double> time_span = std::chrono::duration_cast<std::chrono::duration<double>>(t2 - t1);  
       algorithmInterface.write(std::cout); 
-      std::cout << "\nBVNS: \n";
-      algorithmInterface.setStrategy(myVNS);
-      algorithmInterface.solve();
-      algorithmInterface.write(std::cout); 
+      std::cout << "Duración de la ejecución " << time_span.count() * 1000 << " miliseconds.\n";
 
       // Cronómetro
-      // std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
-      // std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
-      // std::chrono::duration<double> time_span = std::chrono::duration_cast<std::chrono::duration<double>>(t2 - t1);  
-      // std::cout << "Duración de la ejecución " << time_span.count() * 1000 << " miliseconds.\n";
   } catch(const char* e) {
     std::cout << e;
     return(1);

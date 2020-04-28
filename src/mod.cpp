@@ -3,13 +3,18 @@
  * alu0101133201@ull.edu.es
  * Universidad de La Laguna
  * 22-04-20
- * Fichero que describe la clase que implementará
+ * Fichero que implementa la clase de la modificación
  * un algoritmo VNS
  */
 
 #include "VNS.hpp"
 
-bool inVector(int node, std::vector<int>& myVector) {
+#include "mod.hpp"
+
+// ----------- MODIFICACIÓN ---------------
+// ----------------------------------------
+
+bool isInVector(int node, std::vector<int>& myVector) {
   for (size_t iter = 0; iter < myVector.size(); iter++) {
     if (myVector[iter] == node) 
       return true;
@@ -17,7 +22,8 @@ bool inVector(int node, std::vector<int>& myVector) {
   return false;
 }
 
-VNS::VNS(Graph workingGraph, int numberOfCardinality, int stopCriteria, int maxIterations,
+
+Mod::Mod(Graph workingGraph, int numberOfCardinality, int stopCriteria, int maxIterations,
     int typeLocal, int environment) :
     Maxmeandp(workingGraph),
     myGrasp(workingGraph, numberOfCardinality, stopCriteria, maxIterations,
@@ -32,9 +38,7 @@ VNS::VNS(Graph workingGraph, int numberOfCardinality, int stopCriteria, int maxI
   envirnomentType = environment;
 }
 
-VNS::~VNS() {}
-
-void VNS::shake(std::vector<int> currentSolution, float currentValue, int numberOfChanges) {
+void Mod::shake(std::vector<int> currentSolution, float currentValue, int numberOfChanges) {
   std::vector<int> candidates;
   std::vector<int> shakeSolution = currentSolution;
   float shakeValue = currentValue;
@@ -42,7 +46,7 @@ void VNS::shake(std::vector<int> currentSolution, float currentValue, int number
   int swapped = 0;
 
   for (int candidateIter = 0 ; candidateIter < workingGraph.getNumberOfNodes(); candidateIter++) {
-    if (!inVector(candidateIter, currentSolution)) {
+    if (!isInVector(candidateIter, currentSolution)) {
       candidates.push_back(candidateIter);
     }
   }
@@ -73,10 +77,8 @@ void VNS::shake(std::vector<int> currentSolution, float currentValue, int number
   postProcessing();
 }
 
-
-void VNS::mainVNS(std::vector<int>& currentSolution, float& currentValue) {
-  
-  for (int environment = 1; environment < 4; environment++) {
+float Mod::mainLoopSolution(std::vector<int>& currentSolution, float& currentValue) {
+for (int environment = 1; environment < 4; environment++) {
     shake(currentSolution, currentValue, environment); 
     if (bestSolutionValue > currentValue) {
       environment = 0;
@@ -86,40 +88,38 @@ void VNS::mainVNS(std::vector<int>& currentSolution, float& currentValue) {
   }
   bestSolution = currentSolution;
   bestSolutionValue = currentValue;
+  return(bestSolutionValue);
 }
 
-float VNS::solve() {
+Mod::~Mod() {}
+
+float Mod::solve() {
   int iterator = 0;
-  std::vector<int> bestVNSSolution;
-  float bestVNSValue = FLT_MIN;
+  std::vector<int> bestModSolution;
+  float bestModValue = FLT_MIN;
   
   do {
     std::vector<int> auxSolution;
     float auxValue;
     
-    // A partir de GRASP
+    // Obtenemos la solución inicial con GRASP
     myGrasp.solve();
     auxSolution = myGrasp.getBestSolution();
     auxValue = myGrasp.getBestSoluctionValue();
-    // A partir de soluciones ranodm
-    // generateRandom();
-    // auxSolution = bestSolution;
-    // auxValue = bestSolutionValue;
 
-    mainVNS(auxSolution, auxValue);
-    if (bestSolutionValue > bestVNSValue) {
-      bestVNSSolution = bestSolution;
-      bestVNSValue = bestSolutionValue;
-      iterationsWithOutImprove = 0;
-    } else {
-      iterationsWithOutImprove++;
-    }
-
+    // Aplicamos la búsqueda por los diferentes entornos, diversificando e intensificando
+    mainLoopSolution(auxSolution, auxValue);
+    // Actualizamos si es necesario
+    if (bestSolutionValue > bestModValue) {
+      bestModSolution = bestSolution;
+      bestModValue = bestSolutionValue;
+    } 
     iterator++;
-  } while(!stopCriteria(iterator));
+    // Condición de parada del pseudocódigo : 5 iteraciones
+  } while(iterator < 5);
 
-  bestSolution = bestVNSSolution;
-  bestSolutionValue = bestVNSValue;
-  return bestVNSValue;
+  bestSolution = bestModSolution;
+  bestSolutionValue = bestModValue;
+  // Devolvemos la mejor Solución
+  return bestModValue;
 }
-
