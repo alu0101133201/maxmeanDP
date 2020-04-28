@@ -11,14 +11,13 @@
 #include <iostream>
 #include "Maxmeandp.hpp"
 
-class MultiBooting : public Maxmeandp {
-  private:
-    // void generateRandom();
-    
+// Clase que implementa un algoritmo multiarranque
+class MultiBooting : public Maxmeandp {    
   public:
     MultiBooting(Graph workingGraph, int stopCriteria, int maxIterations,
         int typeLocal, int environment);
     ~MultiBooting();
 
+    // Método básico de resolución 
     float solve();
 };

@@ -23,14 +23,12 @@ float FirstGreedy::getBestMean(void) {
     float bestValue = FLT_MIN;
     int bestNode;
 
-
     for (int nodeIter = 0; nodeIter < workingGraph.getNumberOfNodes(); nodeIter++) {
       if (!isInSolution(nodeIter)) {
         float currentValue;
 
         bestSolutionAux.push_back(nodeIter);
         currentValue = mdaddNode(bestSolutionValue, bestSolutionAux, nodeIter);
-
         if (bestValue < currentValue) {
           bestValue = currentValue;
           bestNode = nodeIter;
@@ -44,7 +42,6 @@ float FirstGreedy::getBestMean(void) {
         bestSolutionAux.pop_back();
       }
     }
-
   bestSolution.push_back(bestNode);
   return bestValue;
   }
@@ -58,7 +55,6 @@ float FirstGreedy::solve() {
   do {
     auxSolution = bestSolution;
     float currentMean = getBestMean();
-
     if (bestSolutionValue >= currentMean) {
       bestSolution = auxSolution;
     } else {

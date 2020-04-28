@@ -57,19 +57,16 @@ void VNS::shake(std::vector<int> currentSolution, float currentValue, int number
     } else {
       break;
     }
-
     if (swappedNodes[randomNumber] != 1) {
       shakeSolution[randomNumber] = *toSwap;
       swapped++;
       swappedNodes[randomNumber] = 1;
       candidates.erase(toSwap);
-      // OJOOO CON LA FUNCIÓN OBJETIVO - ARREGLAR - restar el que quitamos y añadir el nuevo
-      shakeValue = mdFromSet(shakeSolution);
-
     } else {
       swapIteration--;
     }
   }
+  shakeValue = mdFromSet(shakeSolution);
 
   bestSolution = shakeSolution;
   bestSolutionValue = shakeValue;
@@ -78,10 +75,9 @@ void VNS::shake(std::vector<int> currentSolution, float currentValue, int number
 
 
 void VNS::mainVNS(std::vector<int>& currentSolution, float& currentValue) {
-
+  
   for (int environment = 1; environment < 4; environment++) {
-    shake(currentSolution, currentValue, environment);
-   
+    shake(currentSolution, currentValue, environment); 
     if (bestSolutionValue > currentValue) {
       environment = 0;
       currentValue = bestSolutionValue;
@@ -105,15 +101,12 @@ float VNS::solve() {
     myGrasp.solve();
     auxSolution = myGrasp.getBestSolution();
     auxValue = myGrasp.getBestSoluctionValue();
-
     // A partir de soluciones ranodm
-
     // generateRandom();
     // auxSolution = bestSolution;
     // auxValue = bestSolutionValue;
 
     mainVNS(auxSolution, auxValue);
-
     if (bestSolutionValue > bestVNSValue) {
       bestVNSSolution = bestSolution;
       bestVNSValue = bestSolutionValue;

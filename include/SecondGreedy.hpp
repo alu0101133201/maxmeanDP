@@ -17,14 +17,18 @@
 #include "Graph.hpp"
 #include "Maxmeandp.hpp"
 
+// Clase que implementa el método voraz destructivo
 class SecondGreedy : public Maxmeandp{
   private:
+    // Método que construye la solución inicial
     void buildInitialSolution();
+    // Método que elimina el pero nodo de la solución
     float deleteWorstNode();
 
   public:
     SecondGreedy(Graph);
     ~SecondGreedy();
     
+    // Método principal de resolución
     float solve();
 };

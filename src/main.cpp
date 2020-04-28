@@ -9,6 +9,7 @@
 
 #include <iostream> 
 #include <string>
+#include <chrono>
 
 #include "Graph.hpp"
 #include "FirstGreedy.hpp"
@@ -21,7 +22,7 @@
 
 #define ITERATIONS 0
 #define WITHOUTIMPROVE 1
-#define GRASPITERATIONS 3
+#define GRASPITERATIONS 100
 #define MULTIBOOTITERATIONS 100
 #define CARDINALITY 4
 #define OPEN 0
@@ -29,6 +30,8 @@
 #define GREEDY 0
 #define ANXIOUS 1
 
+// Programa principal que instancia todos los algoritmos y realiza una 
+// Ejecución con cada uno de ellos
 int main(int argc, char *argv[]) {
 
   try {
@@ -53,7 +56,7 @@ int main(int argc, char *argv[]) {
       algorithmInterface.write(std::cout);
       std::cout << "\nSECOND GREEDY: " << "\n";
       algorithmInterface.setStrategy(alg2);
-      algorithmInterface.solve();   
+      algorithmInterface.solve(); 
       algorithmInterface.write(std::cout);
       std::cout << "\nGRASP: " << "\n";
       algorithmInterface.setStrategy(grasp);
@@ -67,7 +70,12 @@ int main(int argc, char *argv[]) {
       algorithmInterface.setStrategy(myVNS);
       algorithmInterface.solve();
       algorithmInterface.write(std::cout); 
-      
+
+      // Cronómetro
+      // std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
+      // std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
+      // std::chrono::duration<double> time_span = std::chrono::duration_cast<std::chrono::duration<double>>(t2 - t1);  
+      // std::cout << "Duración de la ejecución " << time_span.count() * 1000 << " miliseconds.\n";
   } catch(const char* e) {
     std::cout << e;
     return(1);

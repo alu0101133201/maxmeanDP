@@ -46,7 +46,10 @@
     "streambuf": "cpp",
     "typeinfo": "cpp",
     "climits": "cpp",
-    "cfloat": "cpp"
+    "cfloat": "cpp",
+    "chrono": "cpp",
+    "ctime": "cpp",
+    "ratio": "cpp"
   },
   "terminal.integrated.shell.windows": "cmd.exe"
 }

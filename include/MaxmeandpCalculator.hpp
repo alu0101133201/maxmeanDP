@@ -17,7 +17,7 @@
 #include "Maxmeandp.hpp"
 #include "Graph.hpp"
 
-
+// Clase contexto que implementará el patrón estrategia
 class MaxmeandpCalculator {
   private:
     Maxmeandp* algorithm;
@@ -26,8 +26,11 @@ class MaxmeandpCalculator {
     MaxmeandpCalculator(Maxmeandp*);
     ~MaxmeandpCalculator();
 
+    // Método que nos permite cambiar la estrategia
     void setStrategy(Maxmeandp*);
+    // Método principal de resolución
     float solve();
-    
+
+    // Método básico de impresion
     std::ostream& write(std::ostream& os);
 };

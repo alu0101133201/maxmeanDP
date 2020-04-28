@@ -15,13 +15,16 @@
 #include "Graph.hpp"
 #include "Maxmeandp.hpp"
 
+// Clase que implementa el primer algoritmo voraz
 class FirstGreedy : public Maxmeandp {
   private:
+    // Método que obtiene la arista con mayor afinidad del grafo
     float getBestMean(void);
 
   public:
     FirstGreedy(Graph);
     ~FirstGreedy();
 
+    // Algoritmo principal de resolución
     float solve();
 };

@@ -23,18 +23,6 @@ MultiBooting::MultiBooting(Graph workingGraph, int stopCriteria, int maxIteratio
 
 MultiBooting::~MultiBooting() {}
 
-// void MultiBooting::generateRandom() {
-//   int solutionSize = (rand() % (workingGraph.getNumberOfNodes() - 2)) + 2;
-//   bestSolution.clear();
-  
-//   for (int nodeIter = 0; nodeIter < solutionSize; nodeIter++) {
-//     int randomNumber = rand() % workingGraph.getNumberOfNodes();
-//     if (!isInSolution(randomNumber))
-//       bestSolution.push_back(randomNumber);
-//   }
-//   bestSolutionValue = mdFromSet(bestSolution);
-// }
-
 float MultiBooting::solve() {
   int iteration = 0;
   std::vector<int> bestMultiBootSolution;
